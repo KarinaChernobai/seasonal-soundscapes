@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Seasonal Soundscapes | Nature Sounds for Relaxation</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;600&display=swap">
+  <style>
+    :root {
+      --spring-color: #88c9a1;
+      --summer-color: #f4a261;
+      --autumn-color: #e76f51;
+      --winter-color: #a8dadc;
+      --text-light: #f8f9fa;
+      --text-dark: #212529;
+      --overlay-dark: rgba(0, 0, 0, 0.6);
+      --overlay-light: rgba(255, 255, 255, 0.2);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body, html {
+      height: 100%;
+      font-family: 'Montserrat', sans-serif;
+      overflow: hidden;
+      color: var(--text-light);
+    }
+
+    .app-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    /* Header */
+    .app-header {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      padding: 1.5rem;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      pointer-events: none;
+    }
+
+    .app-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      font-weight: 700;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    }
+
+    .app-subtitle {
+      font-size: 1rem;
+      font-weight: 300;
+      margin-top: 0.25rem;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+    }
+
+    /* Season grid */
+    .seasons-grid {
+      display: flex;
+      width: 100%;
+      height: 100%;
+    }
+
+    .season {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 2rem;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .season::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to top, var(--overlay-dark), transparent);
+      opacity: 0.7;
+      transition: opacity 0.3s ease;
+    }
+
+    .season:hover {
+      flex: 1.2;
+    }
+
+    .season.active {
+      flex: 5;
+    }
+
+    .season.active::before {
+      opacity: 0.9;
+    }
+
+    .season-content {
+      position: relative;
+      z-index: 2;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.4s ease 0.1s;
+    }
+
+    .season.active .season-content {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .season-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    }
+
+    .season-desc {
+      font-size: 1.1rem;
+      max-width: 500px;
+      margin-bottom: 2rem;
+      line-height: 1.6;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+    }
+
+    .season-sounds {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .sound-btn {
+      background: var(--overlay-light);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border-radius: 50px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      backdrop-filter: blur(5px);
+    }
+
+    .sound-btn:hover {
+      background: rgba(255,255,255,0.3);
+      transform: translateY(-2px);
+    }
+
+    .sound-btn.playing {
+      background: white;
+      color: var(--text-dark);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+
+    .player-controls {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .play-btn {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: white;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      transition: all 0.2s ease;
+    }
+
+    .play-btn:hover {
+      transform: scale(1.05);
+    }
+
+    .play-btn svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    .volume-control {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .volume-slider {
+      width: 100px;
+    }
+
+    /* Season-specific styles */
+    .spring {
+      background-image: url('https://images.unsplash.com/photo-1490750967868-88aa4486c946?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+      background-color: var(--spring-color);
+    }
+
+    .summer {
+      background-image: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+      background-color: var(--summer-color);
+    }
+
+    .autumn {
+      background-image: url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+      background-color: var(--autumn-color);
+    }
+
+    .winter {
+      background-image: url('https://images.unsplash.com/photo-1483728642387-6c3bdd6c93e5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+      background-color: var(--winter-color);
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .seasons-grid {
+        flex-direction: column;
+      }
+      
+      .season {
+        flex: 1;
+        padding: 1rem;
+      }
+      
+      .season:hover, .season.active {
+        flex: 1;
+      }
+      
+      .season-name {
+        font-size: 2rem;
+      }
+      
+      .app-title {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <header class="app-header">
+      <div>
+        <h1 class="app-title">Seasonal Soundscapes</h1>
+        <p class="app-subtitle">Nature sounds for relaxation & sleep</p>
+      </div>
+    </header>
+
+    <div class="seasons-grid">
+      <!-- Spring -->
+      <div class="season spring" data-season="spring">
+        <div class="season-content">
+          <h2 class="season-name">Spring</h2>
+          <p class="season-desc">Awaken your senses with the gentle sounds of nature's rebirth - birdsong, babbling brooks, and soft spring rains.</p>
+          <div class="season-sounds">
+            <button class="sound-btn" data-sound="birds">Morning Birds</button>
+            <button class="sound-btn" data-sound="brook">Babbling Brook</button>
+            <button class="sound-btn" data-sound="rain">Spring Rain</button>
+          </div>
+          <div class="player-controls">
+            <button class="play-btn">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </button>
+            <div class="volume-control">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M11 5L6 9H2v6h4l5 4V5z"></path>
+              </svg>
+              <input type="range" class="volume-slider" min="0" max="1" step="0.01" value="0.7">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Summer -->
+      <div class="season summer" data-season="summer">
+        <div class="season-content">
+          <h2 class="season-name">Summer</h2>
+          <p class="season-desc">Bask in the warm sounds of summer - ocean waves, crickets at dusk, and gentle breezes through palm trees.</p>
+          <div class="season-sounds">
+            <button class="sound-btn" data-sound="ocean">Ocean Waves</button>
+            <button class="sound-btn" data-sound="crickets">Summer Night</button>
+            <button class="sound-btn" data-sound="breeze">Gentle Breeze</button>
+          </div>
+          <div class="player-controls">
+            <button class="play-btn">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </button>
+            <div class="volume-control">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M11 5L6 9H2v6h4l5 4V5z"></path>
+              </svg>
+              <input type="range" class="volume-slider" min="0" max="1" step="0.01" value="0.7">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Autumn -->
+      <div class="season autumn" data-season="autumn">
+        <div class="season-content">
+          <h2 class="season-name">Autumn</h2>
+          <p class="season-desc">Experience the crisp sounds of autumn - rustling leaves, distant thunderstorms, and peaceful rainfall.</p>
+          <div class="season-sounds">
+            <button class="sound-btn" data-sound="leaves">Rustling Leaves</button>
+            <button class="sound-btn" data-sound="thunder">Distant Thunder</button>
+            <button class="sound-btn" data-sound="rainfall">Autumn Rainfall</button>
+          </div>
+          <div class="player-controls">
+            <button class="play-btn">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </button>
+            <div class="volume-control">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M11 5L6 9H2v6h4l5 4V5z"></path>
+              </svg>
+              <input type="range" class="volume-slider" min="0" max="1" step="0.01" value="0.7">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Winter -->
+      <div class="season winter" data-season="winter">
+        <div class="season-content">
+          <h2 class="season-name">Winter</h2>
+          <p class="season-desc">Cozy up with the comforting sounds of winter - crackling fires, falling snow, and peaceful winter winds.</p>
+          <div class="season-sounds">
+            <button class="sound-btn" data-sound="fireplace">Crackling Fire</button>
+            <button class="sound-btn" data-sound="snowfall">Falling Snow</button>
+            <button class="sound-btn" data-sound="wind">Winter Wind</button>
+          </div>
+          <div class="player-controls">
+            <button class="play-btn">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </button>
+            <div class="volume-control">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M11 5L6 9H2v6h4l5 4V5z"></path>
+              </svg>
+              <input type="range" class="volume-slider" min="0" max="1" step="0.01" value="0.7">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Audio files
+      const audioFiles = {
+        // Spring
+        birds: 'sounds/spring/birds.mp3',
+        brook: 'sounds/spring/brook.mp3',
+        rain: 'sounds/spring/rain.mp3',
+        
+        // Summer
+        ocean: 'sounds/summer/ocean.mp3',
+        crickets: 'sounds/summer/crickets.mp3',
+        breeze: 'sounds/summer/breeze.mp3',
+        
+        // Autumn
+        leaves: 'sounds/autumn/leaves.mp3',
+        thunder: 'sounds/autumn/thunder.mp3',
+        rainfall: 'sounds/autumn/rainfall.mp3',
+        
+        // Winter
+        fireplace: 'sounds/winter/fireplace.mp3',
+        snowfall: 'sounds/winter/snowfall.mp3',
+        wind: 'sounds/winter/wind.mp3'
+      };
+
+      // Audio context
+      let audioContext;
+      let audioBuffer;
+      let audioSource;
+      let gainNode;
+      let currentSound = null;
+      let isPlaying = false;
+      let activeSeason = null;
+      let activeSoundBtn = null;
+
+      // DOM elements
+      const seasons = document.querySelectorAll('.season');
+      const soundBtns = document.querySelectorAll('.sound-btn');
+      const playBtns = document.querySelectorAll('.play-btn');
+      const volumeSliders = document.querySelectorAll('.volume-slider');
+
+      // Initialize audio context on first interaction
+      function initAudioContext() {
+        if (!audioContext) {
+          audioContext = new (window.AudioContext || window.webkitAudioContext)();
+          gainNode = audioContext.createGain();
+          gainNode.connect(audioContext.destination);
+          gainNode.gain.value = 0.7;
+        }
+      }
+
+      // Load audio file
+      async function loadAudio(file) {
+        try {
+          const response = await fetch(file);
+          const arrayBuffer = await response.arrayBuffer();
+          audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+          playAudio();
+        } catch (error) {
+          console.error('Error loading audio:', error);
+        }
+      }
+
+      // Play audio
+      function playAudio() {
+        if (audioSource) {
+          audioSource.stop();
+        }
+        
+        audioSource = audioContext.createBufferSource();
+        audioSource.buffer = audioBuffer;
+        audioSource.loop = true;
+        audioSource.connect(gainNode);
+        audioSource.start();
+        isPlaying = true;
+        
+        // Update play button icon
+        playBtns.forEach(btn => {
+          btn.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          `;
+        });
+      }
+
+      // Stop audio
+      function stopAudio() {
+        if (audioSource) {
+          audioSource.stop();
+          isPlaying = false;
+          
+          // Update play button icon
+          playBtns.forEach(btn => {
+            btn.innerHTML = `
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            `;
+          });
+        }
+      }
+
+      // Season hover/click interaction
+      seasons.forEach(season => {
+        season.addEventListener('click', function() {
+          // Set active season
+          if (activeSeason) {
+            activeSeason.classList.remove('active');
+          }
+          this.classList.add('active');
+          activeSeason = this;
+        });
+      });
+
+      // Sound button click
+      soundBtns.forEach(btn => {
+        btn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          initAudioContext();
+          
+          // Update active sound button
+          if (activeSoundBtn) {
+            activeSoundBtn.classList.remove('playing');
+          }
+          this.classList.add('playing');
+          activeSoundBtn = this;
+          
+          // Load and play selected sound
+          const soundKey = this.dataset.sound;
+          loadAudio(audioFiles[soundKey]);
+        });
+      });
+
+      // Play/pause button
+      playBtns.forEach(btn => {
+        btn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          
+          if (!currentSound) return;
+          
+          if (isPlaying) {
+            stopAudio();
+          } else {
+            playAudio();
+          }
+        });
+      });
+
+      // Volume control
+      volumeSliders.forEach(slider => {
+        slider.addEventListener('input', function() {
+          if (gainNode) {
+            gainNode.gain.value = this.value;
+          }
+        });
+      });
+
+      // Activate first season by default
+      seasons[0].classList.add('active');
+      activeSeason = seasons[0];
+    });
+  </script>
+</body>
+</html>
