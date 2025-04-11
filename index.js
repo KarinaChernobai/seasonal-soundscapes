@@ -37,6 +37,9 @@ document.addEventListener('DOMContentLoaded', function () {
     const soundBtns = document.querySelectorAll('.sound-btn');
     const playBtns = document.querySelectorAll('.play-btn');
     const volumeSliders = document.querySelectorAll('.volume-slider');
+    // New: Arrow buttons
+    const leftArrow = document.querySelector('.nav-arrow-left');
+    const rightArrow = document.querySelector('.nav-arrow-right');
 
     // Initialize audio context on first interaction
     function initAudioContext() {
@@ -101,15 +104,27 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
+    // New: Function to set active season
+    function setActiveSeason(index) {
+        if (activeSeason) {
+            activeSeason.classList.remove('active');
+        }
+        seasons[index].classList.add('active');
+        activeSeason = seasons[index];
+
+        // Optional: Reset sound if switching seasons
+        if (activeSoundBtn) {
+            activeSoundBtn.classList.remove('playing');
+            activeSoundBtn = null;
+            stopAudio();
+            currentSound = null;
+        }
+    }
+
     // Season hover/click interaction
-    seasons.forEach(season => {
+    seasons.forEach((season, index) => {
         season.addEventListener('click', function () {
-            // Set active season
-            if (activeSeason) {
-                activeSeason.classList.remove('active');
-            }
-            this.classList.add('active');
-            activeSeason = this;
+            setActiveSeason(index);
         });
     });
 
@@ -128,6 +143,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // Load and play selected sound
             const soundKey = this.dataset.sound;
+            currentSound = soundKey;
             loadAudio(audioFiles[soundKey]);
         });
     });
@@ -156,7 +172,19 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
+    // New: Arrow navigation
+    leftArrow.addEventListener('click', () => {
+        const currentIndex = Array.from(seasons).indexOf(activeSeason);
+        const newIndex = (currentIndex - 1 + seasons.length) % seasons.length;
+        setActiveSeason(newIndex);
+    });
+
+    rightArrow.addEventListener('click', () => {
+        const currentIndex = Array.from(seasons).indexOf(activeSeason);
+        const newIndex = (currentIndex + 1) % seasons.length;
+        setActiveSeason(newIndex);
+    });
+
     // Activate first season by default
-    seasons[0].classList.add('active');
-    activeSeason = seasons[0];
+    setActiveSeason(0);
 });
