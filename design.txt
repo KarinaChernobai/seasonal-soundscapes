@@ -1,3 +1,8 @@
 - add arrows that will  show the direction
 - change the season on button click (any space on the screen)
 - second heading in font normal and first heading in font weight bold
+- change sounds and descritions
+- same volume and quality of the sounds
+- add looping
+- add on and off button
+- don't start audio by default
