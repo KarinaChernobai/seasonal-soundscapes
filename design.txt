@@ -4,4 +4,8 @@
 - same volume and quality of the sounds
 - add looping
 - add on and off button
-- don't start audio by default
+- change autumn picutre
+- change winter sounds and descritions
+- crackling fire not loud enough?
+- slider bug --> turns off the sound
+- on off when clicking on sound tultips 
