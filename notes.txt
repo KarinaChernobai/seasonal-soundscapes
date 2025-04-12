@@ -1,0 +1,23 @@
+feautures:
+- add looping
+- on off when clicking on sound tultips 
+bugs:
+- slider bug --> turns off the sound
+- on/off buttons and sound pickers are not disabled when the season is incative and as a result we can pick the sound when the page is inactive
+design:
+- second heading in font normal and first heading in font weight bold
+- change sounds and descritions
+- same volume and quality of the sounds
+- change autumn picutre
+- change winter sounds and descritions
+- crackling fire not loud enough?
+- summer night - I am not sure? --> a walk in the meadow
+- gentle breeze - I am not sure 
+- change autumn picture
+- crackling fire
+- a walk in the snowy mountains
+other:
+- show UI/UX design to Oksana
+- ask Alina to do smoke testing
+- find beta users
+- present your project 
