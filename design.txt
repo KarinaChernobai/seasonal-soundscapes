@@ -9,3 +9,10 @@
 - crackling fire not loud enough?
 - slider bug --> turns off the sound
 - on off when clicking on sound tultips 
+
+-should the pictures change based on the selection
+- summer night - I am not sure? --> a walk in the meadow
+- gentle breeze - I am not sure 
+- change autumn picture
+- crackling fire
+- a walk in the snowy mountains
