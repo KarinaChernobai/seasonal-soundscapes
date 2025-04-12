@@ -25,3 +25,7 @@ other:
 - ask Alina to do smoke testing
 - find beta users
 - present your project 
+
+inspiration links:
+https://www.thelisteningplanet.com/naturesoundscapes
+https://mynoise.net/
