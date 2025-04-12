@@ -5,6 +5,7 @@ feautures:
 bugs:
 - slider bug --> turns off the sound
 - on/off buttons and sound pickers are not disabled when the season is incative and as a result we can pick the sound when the page is inactive
+- slider should not change season
 design:
 - second heading in font normal and first heading in font weight bold
 - change sounds and descritions
@@ -18,6 +19,7 @@ design:
 - crackling fire
 - a walk in the snowy mountains
 - make on off button small
+- click on volume button picks the fist sound
 other:
 - show UI/UX design to Oksana
 - ask Alina to do smoke testing
