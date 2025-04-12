@@ -121,10 +121,17 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // Season hover/click interaction
+    // Season click interaction
     seasons.forEach((season, index) => {
         season.addEventListener('click', function () {
-            setActiveSeason(index);
+            if (season === activeSeason) {
+                // If clicking the active season, cycle to the next one
+                const nextIndex = (index + 1) % seasons.length;
+                setActiveSeason(nextIndex);
+            } else {
+                // If clicking an inactive season, switch to it
+                setActiveSeason(index);
+            }
         });
     });
 
