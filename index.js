@@ -175,20 +175,27 @@ document.addEventListener('DOMContentLoaded', function () {
     soundBtns.forEach(btn => {
         btn.addEventListener('click', function (e) {
             e.stopPropagation();
+            
+            // Check if the button's season is active
+            const seasonElement = this.closest('.season');
+            if (!seasonElement.classList.contains('active')) {
+                return; // Exit if the season is not active
+            }
+    
             initAudioContext();
-
+    
             // Update active sound button
             if (activeSoundBtn) {
                 activeSoundBtn.classList.remove('playing');
             }
             this.classList.add('playing');
             activeSoundBtn = this;
-
+    
             // Reset timer when changing sounds
             currentTimerIndex = -1;
             updateTimerButtons();
             clearTimer();
-
+    
             // Load and play selected sound
             const soundKey = this.dataset.sound;
             currentSound = soundKey;
