@@ -319,10 +319,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Volume control
     volumeSliders.forEach(slider => {
-        slider.addEventListener('input', function () {
+        slider.addEventListener('input', function (e) {
+            e.stopPropagation();
             if (gainNode) {
                 gainNode.gain.value = this.value;
             }
+        });
+        slider.addEventListener('click', function (e) {
+            e.stopPropagation();
         });
     });
 
