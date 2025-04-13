@@ -80,13 +80,14 @@ document.addEventListener('DOMContentLoaded', function () {
         audioSource.start();
         isPlaying = true;
 
-        // Update play button icon
+        // Update play button icon and add playing class
         playBtns.forEach(btn => {
             btn.innerHTML = `
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
             `;
+            btn.classList.add('playing');
         });
 
         // Start timer if one is set
@@ -101,7 +102,7 @@ document.addEventListener('DOMContentLoaded', function () {
             audioSource.stop();
             isPlaying = false;
 
-            // Update play button icon
+            // Update play button icon and remove playing class
             playBtns.forEach(btn => {
                 btn.innerHTML = `
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -109,6 +110,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                 `;
+                btn.classList.remove('playing');
             });
         }
         clearTimer();
@@ -137,6 +139,11 @@ document.addEventListener('DOMContentLoaded', function () {
         const displayText = currentTimerIndex === -1 ? '∞' : timerDurations[currentTimerIndex].display;
         timerBtns.forEach(btn => {
             btn.querySelector('.timer-text').textContent = displayText;
+            if (currentTimerIndex === -1) {
+                btn.classList.remove('timer-active');
+            } else {
+                btn.classList.add('timer-active');
+            }
         });
     }
 
@@ -181,21 +188,21 @@ document.addEventListener('DOMContentLoaded', function () {
             if (!seasonElement.classList.contains('active')) {
                 return; // Exit if the season is not active
             }
-    
+
             initAudioContext();
-    
+
             // Update active sound button
             if (activeSoundBtn) {
                 activeSoundBtn.classList.remove('playing');
             }
             this.classList.add('playing');
             activeSoundBtn = this;
-    
+
             // Reset timer when changing sounds
             currentTimerIndex = -1;
             updateTimerButtons();
             clearTimer();
-    
+
             // Load and play selected sound
             const soundKey = this.dataset.sound;
             currentSound = soundKey;

@@ -194,6 +194,12 @@ html {
     height: 24px;
 }
 
+.play-btn.playing {
+    background: white;
+    color: var(--text-dark);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
 .volume-control {
     display: flex;
     align-items: center;
@@ -354,6 +360,17 @@ html {
     position: absolute;
     bottom: 10px;
 }
+
+.timer-btn.timer-active {
+    background: white;
+    color: var(--text-dark);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.timer-btn.timer-active .timer-text {
+    color: var(--text-dark);
+}
+
 
 /* Ensure player-controls layout */
 .player-controls {
