@@ -172,23 +172,32 @@ html {
     width: 60px;
     height: 60px;
     border-radius: 50%;
-    background: white;
-    border: none;
+    background: var(--overlay-light);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     transition: all 0.2s ease;
+    backdrop-filter: blur(5px);
+    color: white; /* Added to ensure SVG icon is white */
 }
 
 .play-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
     transform: scale(1.05);
 }
 
 .play-btn svg {
     width: 24px;
     height: 24px;
+}
+
+.play-btn.playing {
+    background: white;
+    color: var(--text-dark);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 .volume-control {
@@ -313,4 +322,95 @@ html {
     .nav-arrow-right {
         right: 1rem;
     }
+}
+
+/* Timer button */
+.timer-btn {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: var(--overlay-light);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    backdrop-filter: blur(5px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    position: relative;
+}
+
+.timer-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.05);
+}
+
+.timer-btn svg {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    top: 12px;
+}
+
+.timer-text {
+    font-size: 0.9rem;
+    font-family: 'Montserrat', sans-serif;
+    position: absolute;
+    bottom: 10px;
+}
+
+.timer-btn.timer-active {
+    background: white;
+    color: var(--text-dark);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.timer-btn.timer-active .timer-text {
+    color: var(--text-dark);
+}
+
+
+/* Ensure player-controls layout */
+.player-controls {
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .timer-btn {
+        width: 50px;
+        height: 50px;
+    }
+
+    .timer-btn svg {
+        width: 18px;
+        height: 18px;
+        top: 10px;
+    }
+
+    .timer-text {
+        font-size: 0.8rem;
+        bottom: 8px;
+    }
+
+    .player-controls {
+        gap: 0.75rem;
+    }
+}
+
+/* Inactive timer button (shows only SVG) */
+.timer-btn:not(.timer-active) .timer-text {
+    display: none;
+}
+
+.timer-btn:not(.timer-active) svg {
+    position: static; /* Center SVG when no text */
+}
+
+/* Adjust SVG positioning when active to maintain layout */
+.timer-btn.timer-active svg {
+    top: 12px;
 }
