@@ -400,3 +400,17 @@ html {
         gap: 0.75rem;
     }
 }
+
+/* Inactive timer button (shows only SVG) */
+.timer-btn:not(.timer-active) .timer-text {
+    display: none;
+}
+
+.timer-btn:not(.timer-active) svg {
+    position: static; /* Center SVG when no text */
+}
+
+/* Adjust SVG positioning when active to maintain layout */
+.timer-btn.timer-active svg {
+    top: 12px;
+}

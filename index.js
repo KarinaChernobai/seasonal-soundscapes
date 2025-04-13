@@ -25,6 +25,9 @@ document.addEventListener('DOMContentLoaded', function () {
     let activeSeason = null;
     let activeSoundBtn = null;
     let timerId = null;
+    let countdownInterval = null;
+    let remainingTime = 0;
+    let isTimerActive = false;
     const timerDurations = [
         { minutes: 5, display: '5m' },
         { minutes: 10, display: '10m' },
@@ -34,7 +37,7 @@ document.addEventListener('DOMContentLoaded', function () {
         { minutes: 120, display: '2h' },
         { minutes: 180, display: '3h' }
     ];
-    let currentTimerIndex = -1; // -1 means infinite (no timer)
+    let currentTimerIndex = -1; // -1 means infinite
 
     // DOM elements
     const seasons = document.querySelectorAll('.season');
@@ -79,6 +82,7 @@ document.addEventListener('DOMContentLoaded', function () {
         audioSource.connect(gainNode);
         audioSource.start();
         isPlaying = true;
+        isTimerActive = true;
 
         // Update play button icon and add playing class
         playBtns.forEach(btn => {
@@ -89,6 +93,9 @@ document.addEventListener('DOMContentLoaded', function () {
             `;
             btn.classList.add('playing');
         });
+
+        // Update timer button state
+        updateTimerButtons();
 
         // Start timer if one is set
         if (currentTimerIndex !== -1) {
@@ -101,6 +108,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (audioSource) {
             audioSource.stop();
             isPlaying = false;
+            isTimerActive = false;
 
             // Update play button icon and remove playing class
             playBtns.forEach(btn => {
@@ -112,6 +120,16 @@ document.addEventListener('DOMContentLoaded', function () {
                 `;
                 btn.classList.remove('playing');
             });
+
+            // Reset sound button
+            if (activeSoundBtn) {
+                activeSoundBtn.classList.remove('playing');
+                activeSoundBtn = null;
+            }
+            currentSound = null;
+
+            // Update timer button
+            updateTimerButtons();
         }
         clearTimer();
     }
@@ -120,9 +138,23 @@ document.addEventListener('DOMContentLoaded', function () {
     function startTimer() {
         clearTimer();
         const duration = timerDurations[currentTimerIndex].minutes * 60 * 1000;
+        remainingTime = duration;
+
+        // Start countdown
+        countdownInterval = setInterval(() => {
+            remainingTime -= 1000;
+            if (remainingTime <= 0) {
+                stopAudio();
+                currentTimerIndex = -1;
+                updateTimerButtons();
+                clearTimer();
+            } else {
+                updateTimerDisplay();
+            }
+        }, 1000);
+
         timerId = setTimeout(() => {
             stopAudio();
-            // Reset to infinite after timer expires
             currentTimerIndex = -1;
             updateTimerButtons();
         }, duration);
@@ -133,16 +165,47 @@ document.addEventListener('DOMContentLoaded', function () {
             clearTimeout(timerId);
             timerId = null;
         }
+        if (countdownInterval) {
+            clearInterval(countdownInterval);
+            countdownInterval = null;
+        }
+    }
+
+    function updateTimerDisplay() {
+        const minutes = Math.ceil(remainingTime / 1000 / 60);
+        let displayText;
+        if (minutes >= 60) {
+            const hours = Math.floor(minutes / 60);
+            displayText = `${hours}h`;
+        } else {
+            displayText = `${minutes}m`;
+        }
+        timerBtns.forEach(btn => {
+            btn.querySelector('.timer-text').textContent = displayText;
+        });
     }
 
     function updateTimerButtons() {
-        const displayText = currentTimerIndex === -1 ? '∞' : timerDurations[currentTimerIndex].display;
-        timerBtns.forEach(btn => {
-            btn.querySelector('.timer-text').textContent = displayText;
+        let displayText = '∞';
+        if (isTimerActive) {
             if (currentTimerIndex === -1) {
-                btn.classList.remove('timer-active');
+                displayText = '∞';
             } else {
+                displayText = timerDurations[currentTimerIndex].display;
+                if (countdownInterval) {
+                    updateTimerDisplay();
+                    return;
+                }
+            }
+        }
+
+        timerBtns.forEach(btn => {
+            if (isTimerActive) {
                 btn.classList.add('timer-active');
+                btn.querySelector('.timer-text').textContent = displayText;
+            } else {
+                btn.classList.remove('timer-active');
+                btn.querySelector('.timer-text').textContent = '';
             }
         });
     }
@@ -189,6 +252,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 return; // Exit if the season is not active
             }
 
+            // If the clicked button is already playing, stop it
+            if (this.classList.contains('playing')) {
+                stopAudio();
+                return;
+            }
+
             initAudioContext();
 
             // Update active sound button
@@ -198,10 +267,9 @@ document.addEventListener('DOMContentLoaded', function () {
             this.classList.add('playing');
             activeSoundBtn = this;
 
-            // Reset timer when changing sounds
+            // Reset timer to infinite when changing sounds
             currentTimerIndex = -1;
             updateTimerButtons();
-            clearTimer();
 
             // Load and play selected sound
             const soundKey = this.dataset.sound;
@@ -215,12 +283,18 @@ document.addEventListener('DOMContentLoaded', function () {
         btn.addEventListener('click', function (e) {
             e.stopPropagation();
 
-            if (!currentSound) return;
-
             if (isPlaying) {
                 stopAudio();
             } else {
-                playAudio();
+                if (!currentSound) {
+                    // Play the first sound of the active season
+                    const firstSoundBtn = activeSeason.querySelector('.sound-btn');
+                    if (firstSoundBtn) {
+                        firstSoundBtn.click();
+                    }
+                } else {
+                    playAudio();
+                }
             }
         });
     });
@@ -229,11 +303,11 @@ document.addEventListener('DOMContentLoaded', function () {
     timerBtns.forEach(btn => {
         btn.addEventListener('click', function (e) {
             e.stopPropagation();
-            // Cycle through durations
-            currentTimerIndex = (currentTimerIndex + 1) % (timerDurations.length + 1);
-            if (currentTimerIndex === timerDurations.length) {
-                currentTimerIndex = 0; // Skip infinite, go to 5 min
+            if (!isTimerActive) {
+                return; // Ignore clicks when timer is inactive
             }
+            // Cycle through durations, including infinity
+            currentTimerIndex = (currentTimerIndex + 1) % (timerDurations.length + 1);
             updateTimerButtons();
             if (isPlaying && currentTimerIndex !== -1) {
                 startTimer();
