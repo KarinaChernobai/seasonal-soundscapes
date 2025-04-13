@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function () {
         rainfall: 'sounds/autumn/rainfall.mp3',
         fireplace: 'sounds/winter/fireplace.mp3',
         snowfall: 'sounds/winter/snowfall.mp3',
-        snowcrunch: 'sounds/winter/snowcrunch.mp3' // Replaced wind
+        snowcrunch: 'sounds/winter/snowcrunch.mp3'
     };
 
     // Audio context
