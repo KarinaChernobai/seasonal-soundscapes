@@ -172,17 +172,20 @@ html {
     width: 60px;
     height: 60px;
     border-radius: 50%;
-    background: white;
-    border: none;
+    background: var(--overlay-light);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     transition: all 0.2s ease;
+    backdrop-filter: blur(5px);
+    color: white; /* Added to ensure SVG icon is white */
 }
 
 .play-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
     transform: scale(1.05);
 }
 
