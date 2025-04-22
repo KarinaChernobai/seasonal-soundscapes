@@ -245,7 +245,7 @@ document.addEventListener('DOMContentLoaded', function () {
     soundBtns.forEach(btn => {
         btn.addEventListener('click', function (e) {
             e.stopPropagation();
-            
+
             // Check if the button's season is active
             const seasonElement = this.closest('.season');
             if (!seasonElement.classList.contains('active')) {
@@ -345,4 +345,54 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Activate first season by default
     setActiveSeason(0);
+
+    // Mobile swipe detection
+    let touchStartY = 0;
+    let touchEndY = 0;
+
+    function handleTouchStart(e) {
+        touchStartY = e.changedTouches[0].screenY;
+    }
+
+    function handleTouchEnd(e) {
+        if (window.innerWidth > 768) return; // Only for mobile
+
+        touchEndY = e.changedTouches[0].screenY;
+        handleSwipe();
+    }
+
+    function handleSwipe() {
+        const threshold = 50; // Minimum swipe distance
+
+        if (touchEndY < touchStartY - threshold) {
+            // Swiped up - next season
+            const currentIndex = Array.from(seasons).indexOf(activeSeason);
+            const newIndex = Math.min(currentIndex + 1, seasons.length - 1);
+            if (newIndex !== currentIndex) {
+                seasons[newIndex].scrollIntoView({ behavior: 'smooth' });
+                setActiveSeason(newIndex);
+            }
+        } else if (touchEndY > touchStartY + threshold) {
+            // Swiped down - previous season
+            const currentIndex = Array.from(seasons).indexOf(activeSeason);
+            const newIndex = Math.max(currentIndex - 1, 0);
+            if (newIndex !== currentIndex) {
+                seasons[newIndex].scrollIntoView({ behavior: 'smooth' });
+                setActiveSeason(newIndex);
+            }
+        }
+    }
+
+    // Add event listeners for mobile
+    document.addEventListener('touchstart', handleTouchStart, false);
+    document.addEventListener('touchend', handleTouchEnd, false);
+
+    // Update setActiveSeason to handle mobile scrolling
+    const originalSetActiveSeason = setActiveSeason;
+    setActiveSeason = function (index) {
+        originalSetActiveSeason(index);
+        if (window.innerWidth <= 768) {
+            seasons[index].scrollIntoView({ behavior: 'smooth' });
+        }
+    };
 });
