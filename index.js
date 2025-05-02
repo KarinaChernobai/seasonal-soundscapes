@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const seasons = document.querySelectorAll('.season');
+    const seasonContainer = document.querySelectorAll('.season')[0];
+    const seasons = ["spring", "summer", "autumn", "winter"];
     let currSeasonInx = 0;
 
     function nextSeason(){
@@ -20,8 +21,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     function setActiveSeason(nextSeasonInx) {
-        seasons[currSeasonInx].classList.remove('active');
-        seasons[nextSeasonInx].classList.add('active');
+        seasonContainer.classList.remove(seasons[currSeasonInx]);
+        seasonContainer.classList.add(seasons[nextSeasonInx]);
         currSeasonInx = nextSeasonInx;
     };
 
