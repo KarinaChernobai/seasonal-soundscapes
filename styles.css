@@ -118,6 +118,13 @@ html {
     height: 24px;
 }
 
+.controls-container{
+    display: flex;
+    flex-direction: column;
+    gap: 2%;
+    margin-left: 10px;
+}
+
 
 /* Player button */
 
