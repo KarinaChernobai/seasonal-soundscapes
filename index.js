@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function handleSwipe() {
-        const threshold = 50; // Minimum swipe distance
+        const threshold = 30; // Minimum swipe distance
 
         if (touchEndY < touchStartY - threshold) {
             // Swiped up - next season
