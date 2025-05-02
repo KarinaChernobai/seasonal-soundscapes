@@ -1,0 +1,93 @@
+:root {
+    --spring-color: #88c9a1;
+    --summer-color: #f4a261;
+    --autumn-color: #e76f51;
+    --winter-color: #a8dadc;
+    --text-light: #f8f9fa;
+    --text-dark: #212529;
+    --overlay-dark: rgba(0, 0, 0, 0.6);
+    --overlay-light: rgba(255, 255, 255, 0.2);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body,
+html {
+    height: 100%;
+    font-family: 'Montserrat', sans-serif;
+    overflow: hidden;
+    color: var(--text-light);
+}
+
+.season {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    transition: opacity 0.5s ease;
+    opacity: 0;
+}
+
+.active {
+    opacity: 1;
+    width: 100%;
+    height: 100vh;
+}
+
+.spring {
+    background-image: url('https://images.unsplash.com/photo-1490750967868-88aa4486c946?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+    background-color: var(--spring-color);
+}
+
+.summer {
+    background-image: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+    background-color: var(--summer-color);
+}
+
+.autumn {
+    background-image: url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+    background-color: var(--autumn-color);
+}
+
+.winter {
+    background-image: url('https://images.unsplash.com/photo-1483728642387-6c3bdd6c93e5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+    background-color: var(--winter-color);
+}
+
+/* Navigation arrows */
+.nav-arrow-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 100;
+}
+
+.nav-arrow {
+    position: absolute;
+    top: 85%;
+    left: calc(50% - 26px);
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: var(--overlay-light);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nav-arrow svg {
+    width: 24px;
+    height: 24px;
+}
