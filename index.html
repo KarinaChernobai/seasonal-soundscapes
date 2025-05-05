@@ -11,15 +11,6 @@
 <body>
     <!-- mobile version -->
 
-    <!-- navigation arrows -->
-    <div class="nav-arrow-container">
-        <button class="nav-arrow" id="nav-arrow-down" aria-label="Next season">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M6 9l6 6 6-6"></path>
-            </svg>
-        </button>
-    </div>
-
     <div class="season spring active">
         <header class="app-header">
             <div>
@@ -28,10 +19,14 @@
             </div>
         </header>
 
+        <div style="flex: 10 1 200px"></div>
+
+        <!-- <p class="season-desc">Awaken your senses with the gentle sounds of nature's rebirth - birdsong, babbling brooks, and soft spring rains.</p> -->
+
         <div class="controls-container">
             <div class="season-sounds">
                 <button class="sound-btn" data-sound="birds">Morning Birds</button>
-                <button class="sound-btn" data-sound="brook">Babbling Brook</button>
+                <button class="sound-btn" data-sound="brook">Silver Stream</button>
                 <button class="sound-btn" data-sound="rain">Spring Rain</button>
             </div>
     
@@ -44,7 +39,7 @@
                       d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                 </button>
-                <button class="timer-btn" aria-label="Set timer duration">
+                <button class="timer-btn"  aria-label="Set timer duration">
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <circle cx="12" cy="12" r="10"></circle>
@@ -54,6 +49,15 @@
                 </button>
             </div>
         </div>
+
+      <!-- navigation arrows -->
+      <div class="nav-arrow-container">
+        <button class="nav-arrow" id="nav-arrow-down" aria-label="Next season">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 9l6 6 6-6"></path>
+          </svg>
+        </button>
+      </div>
     </div>
 
     <script src="index.js"></script>

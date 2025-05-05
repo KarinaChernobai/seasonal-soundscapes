@@ -1,6 +1,7 @@
 class Season {
-    constructor(name, sounds) {
+    constructor(name, descr, sounds) {
         this.name = name;
+        this.descr = descr;
         this.sounds = sounds;
     }
 };
@@ -13,10 +14,14 @@ class Sound {
 }
 
 const seasons = [
-    new Season("spring", [new Sound("birds", "Morning Birds"), new Sound("brook", "Babbling Brook"), new Sound("rain", "Spring Rain")]),
-    new Season("summer", [new Sound("ocean", "Ocean Waves"), new Sound("crickets", "Summer Night"), new Sound("breeze", "Gentle Breeze")]),
-    new Season("autumn", [new Sound("leaves", "Rustling Leaves"), new Sound("thunder", "Distant Thunder"), new Sound("rainfall", "Autumn Rainfall")]),
-    new Season("winter", [new Sound("fireplace", "Crackling Fire"), new Sound("snowfall", "Falling Snow"), new Sound("snowcrunch", "Snow Crunch")]),
+    new Season("spring", "Awaken your senses with the gentle sounds of nature's rebirth - birdsong, babbling brooks, and soft spring rains.", 
+        [new Sound("birds", "Morning Birds"), new Sound("brook", "Silver Stream"), new Sound("rain", "Spring Rain")]),
+    new Season("summer", "Bask in the warm sounds of summer - ocean waves, crickets at dusk, and gentle breezes through palm trees.", 
+        [new Sound("ocean", "Sea Whisper"), new Sound("crickets", "Summer Night"), new Sound("breeze", "Gentle Breeze")]),
+    new Season("autumn", "Experience the crisp sounds of autumn - rustling leaves, distant thunderstorms, and peaceful rainfall.", 
+        [new Sound("leaves", "Leaves rustle"), new Sound("thunder", "Distant Thunder"), new Sound("rainfall", "Autumn Rainfall")]),
+    new Season("winter", "Cozy up with the comforting sounds of winter - crackling fires, falling snow, and the crisp crunch of footsteps on fresh snow.", 
+        [new Sound("fireplace", "Crackling Fire"), new Sound("snowfall", "Falling Snow"), new Sound("snowcrunch", "Snow Crunch")]),
 ];
 let currSeasonInx = 0;
 
@@ -35,11 +40,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Mobile navigation start
-
-    const downArrow = document.getElementById('nav-arrow-down');
-
-    downArrow.addEventListener('click', nextSeason);
-
 
     function setActiveSeason(nextSeasonInx) {
         seasonContainer.classList.remove(seasons[currSeasonInx].name);
@@ -81,6 +81,10 @@ document.addEventListener('DOMContentLoaded', function () {
             previousSeason();
         }
     }
+
+    const downArrow = document.getElementById('nav-arrow-down');
+    downArrow.addEventListener('click', nextSeason);
+
 
     document.addEventListener('touchstart', handleTouchStart, false);
     document.addEventListener('touchend', handleTouchEnd, false);
