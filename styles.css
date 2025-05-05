@@ -45,22 +45,22 @@ html {
 }
 
 .spring {
-    background-image: url('https://images.unsplash.com/photo-1490750967868-88aa4486c946?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+    background-image: url('images/spring.avif');
     /* background-color: var(--spring-color); */
 }
 
 .summer {
-    background-image: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+    background-image: url('images/summer.avif');
     /* background-color: var(--summer-color); */
 }
 
 .autumn {
-    background-image: url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+    background-image: url('images/autumn.avif');
     /* background-color: var(--autumn-color); */
 }
 
 .winter {
-    background-image: url('https://images.unsplash.com/photo-1483728642387-6c3bdd6c93e5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+    background-image: url('images/winter.avif');
     /* background-color: var(--winter-color); */
 }
 
@@ -124,7 +124,7 @@ html {
     display: flex;
     flex-direction: column;
     gap: 2%;
-    margin-left: 10px;
+    padding-left: 1.5rem; 
 }
 
 .season-desc {
