@@ -52,22 +52,22 @@ html {
 }
 
 .spring {
-    background-image: url('images/spring.avif');
+    background-image: url('images/spring.webp');
     /* background-color: var(--spring-color); */
 }
 
 .summer {
-    background-image: url('images/summer.avif');
+    background-image: url('images/summer.webp');
     /* background-color: var(--summer-color); */
 }
 
 .autumn {
-    background-image: url('images/autumn.avif');
+    background-image: url('images/autumn.webp');
     /* background-color: var(--autumn-color); */
 }
 
 .winter {
-    background-image: url('images/winter.avif');
+    background-image: url('images/winter.webp');
     /* background-color: var(--winter-color); */
 }
 

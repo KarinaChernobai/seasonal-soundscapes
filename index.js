@@ -333,6 +333,23 @@ document.addEventListener('DOMContentLoaded', function () {
     document.addEventListener('touchstart', handleTouchStart, false);
     document.addEventListener('touchend', handleTouchEnd, false);
 
+    // Desktop season click handling
+    desktopSeasons.forEach((season, index) => {
+        season.addEventListener('click', function(e) {
+            // Don't handle clicks if the season is already active
+            if (season.classList.contains('active')) {
+                return;
+            }
+            
+            // Don't handle clicks on interactive elements inside the season
+            if (e.target.closest('.sound-btn, .play-btn, .timer-btn, .volume-slider')) {
+                return;
+            }
+            
+            setActiveSeason(index);
+        });
+    });
+
     // Sound button click
     allSoundBtns.forEach(btn => {
         btn.addEventListener('click', function (e) {
