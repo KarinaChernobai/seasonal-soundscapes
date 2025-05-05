@@ -23,6 +23,13 @@ html {
     color: var(--text-light);
 }
 
+.mobile-container {
+    display: block;
+}
+.app-container{
+    display: none;
+}
+
 .season {
     position: absolute;
     top: 0;
@@ -254,3 +261,16 @@ html {
     color: var(--text-dark);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
+
+
+/* desktop styles */
+/* 
+
+@media (min-width: 1024px){
+    .mobile-container {
+      display: none;
+    }
+    .app-container{
+        display: inherit;
+    }
+} */

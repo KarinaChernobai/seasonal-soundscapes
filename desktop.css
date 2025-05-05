@@ -1,0 +1,461 @@
+:root {
+    --spring-color: #88c9a1;
+    --summer-color: #f4a261;
+    --autumn-color: #e76f51;
+    --winter-color: #a8dadc;
+    --text-light: #f8f9fa;
+    --text-dark: #212529;
+    --overlay-dark: rgba(0, 0, 0, 0.6);
+    --overlay-light: rgba(255, 255, 255, 0.2);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body,
+html {
+    height: 100%;
+    font-family: 'Montserrat', sans-serif;
+    overflow: hidden;
+    color: var(--text-light);
+}
+
+.app-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    display: block;
+}
+
+.mobile-container{
+    display: none;
+}
+
+/* Header */
+.app-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 1.5rem;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    pointer-events: none;
+}
+
+.app-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.app-subtitle {
+    font-size: 1rem;
+    font-weight: 300;
+    margin-top: 0.25rem;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* Season grid */
+.seasons-grid {
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+
+.season {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 2rem;
+    background-size: cover;
+    background-position: center;
+}
+
+.season::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to top, var(--overlay-dark), transparent);
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+}
+
+.season:hover {
+    flex: 1.2;
+}
+
+.season.active {
+    flex: 5;
+}
+
+.season.active::before {
+    opacity: 0.9;
+}
+
+.season-content {
+    position: relative;
+    z-index: 2;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.4s ease 0.1s;
+}
+
+.season.active .season-content {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.season-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.season-desc {
+    font-size: 1.1rem;
+    max-width: 500px;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.season-sounds {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.sound-btn {
+    background: var(--overlay-light);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 50px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    backdrop-filter: blur(5px);
+}
+
+.sound-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+}
+
+.sound-btn.playing {
+    background: white;
+    color: var(--text-dark);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.player-controls {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.play-btn {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: var(--overlay-light);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transition: all 0.2s ease;
+    backdrop-filter: blur(5px);
+    color: white;
+}
+
+.play-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.05);
+}
+
+.play-btn svg {
+    width: 24px;
+    height: 24px;
+}
+
+.play-btn.playing {
+    background: white;
+    color: var(--text-dark);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.volume-control {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.volume-slider {
+    width: 100px;
+}
+
+/* Season-specific styles */
+.spring {
+    background-image: url('https://images.unsplash.com/photo-1490750967868-88aa4486c946?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+    background-color: var(--spring-color);
+}
+
+.summer {
+    background-image: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+    background-color: var(--summer-color);
+}
+
+.autumn {
+    background-image: url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+    background-color: var(--autumn-color);
+}
+
+.winter {
+    background-image: url('https://images.unsplash.com/photo-1483728642387-6c3bdd6c93e5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+    background-color: var(--winter-color);
+}
+
+/* Navigation arrows */
+.nav-arrows {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 100;
+}
+
+.nav-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: var(--overlay-light);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    backdrop-filter: blur(5px);
+    pointer-events: auto;
+}
+
+.nav-arrow:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-50%) scale(1.05);
+}
+
+.nav-arrow-left {
+    left: 1.5rem;
+}
+
+.nav-arrow-right {
+    right: 1.5rem;
+}
+
+.nav-arrow svg {
+    width: 24px;
+    height: 24px;
+}
+
+/* Timer button */
+.timer-btn {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: var(--overlay-light);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    backdrop-filter: blur(5px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    position: relative;
+}
+
+.timer-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.05);
+}
+
+.timer-btn svg {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    top: 12px;
+}
+
+.timer-text {
+    font-size: 0.9rem;
+    font-family: 'Montserrat', sans-serif;
+    position: absolute;
+    bottom: 10px;
+}
+
+.timer-btn.timer-active {
+    background: white;
+    color: var(--text-dark);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.timer-btn.timer-active .timer-text {
+    color: var(--text-dark);
+}
+
+/* Mobile controls */
+.mobile-controls {
+    display: none;
+}
+
+.desktop-controls {
+    display: block;
+}
+
+/* Mobile styles */
+@media (max-width: 768px) {
+    .app-header {
+        padding: 1rem;
+    }
+
+    .app-title {
+        font-size: 1.5rem;
+    }
+
+    .app-subtitle {
+        font-size: 0.9rem;
+    }
+
+    .season-desc,
+    .volume-control {
+        display: none !important;
+    }
+
+    .seasons-grid {
+        flex-direction: column;
+        height: 100vh;
+        overflow-y: auto;
+        scroll-snap-type: y mandatory;
+        scroll-behavior: smooth;
+    }
+
+    .season {
+        height: 100vh;
+        scroll-snap-align: start;
+        position: relative;
+        flex: none;
+        padding: 1rem;
+        justify-content: center;
+    }
+
+    .season.active {
+        flex: none;
+    }
+
+    .season-name {
+        font-size: 2rem;
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .mobile-controls {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+
+    .desktop-controls {
+        display: none;
+    }
+
+    .player-controls {
+        justify-content: center;
+    }
+
+    .season-sounds {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .sound-btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+        width: 100%;
+        max-width: 200px;
+        text-align: center;
+    }
+
+    .play-btn, .timer-btn {
+        width: 50px;
+        height: 50px;
+    }
+
+    .play-btn svg, .timer-btn svg {
+        width: 20px;
+        height: 20px;
+    }
+
+    .timer-btn svg {
+        top: 10px;
+    }
+
+    .timer-text {
+        font-size: 0.8rem;
+        bottom: 8px;
+    }
+
+    .nav-arrows {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 1rem;
+    }
+
+    .nav-arrow {
+        position: static;
+        transform: none;
+        width: 50px;
+        height: 50px;
+    }
+
+    .nav-arrow svg {
+        width: 20px;
+        height: 20px;
+    }
+
+    /* Swipe navigation */
+    .season {
+        touch-action: pan-y;
+    }
+}
