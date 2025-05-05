@@ -46,22 +46,22 @@ html {
 
 .spring {
     background-image: url('https://images.unsplash.com/photo-1490750967868-88aa4486c946?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
-    background-color: var(--spring-color);
+    /* background-color: var(--spring-color); */
 }
 
 .summer {
     background-image: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
-    background-color: var(--summer-color);
+    /* background-color: var(--summer-color); */
 }
 
 .autumn {
     background-image: url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
-    background-color: var(--autumn-color);
+    /* background-color: var(--autumn-color); */
 }
 
 .winter {
     background-image: url('https://images.unsplash.com/photo-1483728642387-6c3bdd6c93e5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
-    background-color: var(--winter-color);
+    /* background-color: var(--winter-color); */
 }
 
 
