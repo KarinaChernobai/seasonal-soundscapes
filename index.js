@@ -27,7 +27,7 @@ let currSeasonInx = 0;
 
 document.addEventListener('DOMContentLoaded', function () {
     const seasonContainer = document.querySelector('.season');
-    const soundBtns = document.querySelectorAll('.sound-btn');
+    const soundBtns = document.querySelectorAll('.mobile-container .sound-btn');
 
     function nextSeason(){
         if (currSeasonInx === seasons.length - 1) setActiveSeason(0);
