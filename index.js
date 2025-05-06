@@ -342,9 +342,9 @@ document.addEventListener('DOMContentLoaded', function () {
             }
             
             // Don't handle clicks on interactive elements inside the season
-            if (e.target.closest('.sound-btn, .play-btn, .timer-btn, .volume-slider')) {
-                return;
-            }
+            // if (e.target.closest('.sound-btn, .play-btn, .timer-btn, .volume-slider')) {
+            //     return;
+            // }
             
             setActiveSeason(index);
         });
@@ -353,13 +353,14 @@ document.addEventListener('DOMContentLoaded', function () {
     // Sound button click
     allSoundBtns.forEach(btn => {
         btn.addEventListener('click', function (e) {
-            e.stopPropagation();
 
             // Check if the button's season is active
             const seasonElement = this.closest('.season');
             if (!seasonElement.classList.contains('active')) {
                 return; // Exit if the season is not active
             }
+
+            e.stopPropagation();
 
             // If the clicked button is already playing, stop it
             if (this.classList.contains('playing')) {
