@@ -50,7 +50,8 @@ const appState = {
         { minutes: 180, display: '3h' }
     ],
     audioContext: null,
-    audioBuffer: null,
+    audioBuffers: {}, // Store preloaded buffers here
+    isPreloading: false,
     audioSource: null,
     gainNode: null,
     currentSound: null,
@@ -84,18 +85,49 @@ document.addEventListener('DOMContentLoaded', function () {
             appState.gainNode = appState.audioContext.createGain();
             appState.gainNode.connect(appState.audioContext.destination);
             appState.gainNode.gain.value = 0.7;
+            
+            // Start preloading after context is created
+            preloadAllAudio();
         }
+    }
+
+    // Preload audio file
+    async function preloadAllAudio() {
+        appState.isPreloading = true;
+        try {
+            const audioFiles = Object.values(appState.audioFiles);
+            const buffers = await Promise.all(
+                audioFiles.map(file => fetch(file)
+                    .then(response => response.arrayBuffer())
+                    .then(arrayBuffer => appState.audioContext.decodeAudioData(arrayBuffer))
+            ));
+            
+            // Store buffers in appState.audioBuffers
+            Object.keys(appState.audioFiles).forEach((key, index) => {
+                appState.audioBuffers[key] = buffers[index];
+            });
+        } catch (error) {
+            console.error('Error preloading audio:', error);
+        }
+        appState.isPreloading = false;
     }
 
     // Load audio file
     async function loadAudio(file) {
-        try {
-            const response = await fetch(file);
-            const arrayBuffer = await response.arrayBuffer();
-            appState.audioBuffer = await appState.audioContext.decodeAudioData(arrayBuffer);
+        const soundKey = Object.keys(appState.audioFiles).find(key => appState.audioFiles[key] === file);
+        
+        if (appState.audioBuffers[soundKey]) {
+            appState.audioBuffer = appState.audioBuffers[soundKey];
             playAudio();
-        } catch (error) {
-            console.error('Error loading audio:', error);
+        } else {
+            try {
+                const response = await fetch(file);
+                const arrayBuffer = await response.arrayBuffer();
+                appState.audioBuffer = await appState.audioContext.decodeAudioData(arrayBuffer);
+                playAudio();
+            } catch (error) {
+                console.error('Error loading audio:', error);
+            }
         }
     }
 
