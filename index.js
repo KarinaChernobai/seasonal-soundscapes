@@ -268,7 +268,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 season.classList.remove('active');
             }
         });
-        
         // Reset sound and timer if switching seasons
         if (appState.activeSoundBtn) {
             appState.activeSoundBtn.classList.remove('playing');
@@ -341,11 +340,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 return;
             }
             
-            // Don't handle clicks on interactive elements inside the season
-            // if (e.target.closest('.sound-btn, .play-btn, .timer-btn, .volume-slider')) {
-            //     return;
-            // }
-            
             setActiveSeason(index);
         });
     });
@@ -398,7 +392,23 @@ document.addEventListener('DOMContentLoaded', function () {
             } else {
                 if (!appState.currentSound) {
                     // Play the first sound of the active season
-                    const activeSeasonElement = document.querySelector('.season.active');
+                    let activeSeasonElement;
+                    
+                    // On desktop, the clicked play button might be in an inactive season
+                    if (window.innerWidth >= 768) {
+                        // Find the season that contains this play button
+                        const seasonElement = this.closest('.season');
+                        // If this season isn't active, make it active first
+                        if (!seasonElement.classList.contains('active')) {
+                            const seasonIndex = Array.from(desktopSeasons).indexOf(seasonElement);
+                            setActiveSeason(seasonIndex);
+                        }
+                        activeSeasonElement = seasonElement;
+                    } else {
+                        // Mobile behavior remains the same
+                        activeSeasonElement = document.querySelector('.season.active');
+                    }
+                    
                     if (activeSeasonElement) {
                         const firstSoundBtn = activeSeasonElement.querySelector('.sound-btn');
                         if (firstSoundBtn) {
