@@ -53,22 +53,22 @@ html {
 
 .spring {
     background-image: url('images/spring.avif');
-    /* background-color: var(--spring-color); */
+    background-color: var(--spring-color);
 }
 
 .summer {
     background-image: url('images/summer.avif');
-    /* background-color: var(--summer-color); */
+    background-color: var(--summer-color);
 }
 
 .autumn {
     background-image: url('images/autumn.avif');
-    /* background-color: var(--autumn-color); */
+    background-color: var(--autumn-color);
 }
 
 .winter {
     background-image: url('images/winter.avif');
-    /* background-color: var(--winter-color); */
+    background-color: var(--winter-color);
 }
 
 
@@ -99,9 +99,6 @@ html {
 
 /* Navigation arrows */
 .nav-arrow-container {
-    /* position: absolute;
-    top: 0;
-    left: 0; */
     width: 100%;
     height: 100%;
     z-index: 100;
@@ -261,16 +258,3 @@ html {
     color: var(--text-dark);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
-
-
-/* desktop styles */
-/* 
-
-@media (min-width: 1024px){
-    .mobile-container {
-      display: none;
-    }
-    .app-container{
-        display: inherit;
-    }
-} */

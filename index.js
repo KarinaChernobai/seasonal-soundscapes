@@ -348,7 +348,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // Event listeners
     if (downArrow) {
         downArrow.addEventListener('click', nextSeason);
     }
@@ -388,7 +387,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
             e.stopPropagation();
 
-            // If the clicked button is already playing, stop it
             if (this.classList.contains('playing')) {
                 stopAudio();
                 return;
@@ -426,18 +424,14 @@ document.addEventListener('DOMContentLoaded', function () {
                     // Play the first sound of the active season
                     let activeSeasonElement;
                     
-                    // On desktop, the clicked play button might be in an inactive season
                     if (window.innerWidth >= 768) {
-                        // Find the season that contains this play button
                         const seasonElement = this.closest('.season');
-                        // If this season isn't active, make it active first
                         if (!seasonElement.classList.contains('active')) {
                             const seasonIndex = Array.from(desktopSeasons).indexOf(seasonElement);
                             setActiveSeason(seasonIndex);
                         }
                         activeSeasonElement = seasonElement;
                     } else {
-                        // Mobile behavior remains the same
                         activeSeasonElement = document.querySelector('.season.active');
                     }
                     
