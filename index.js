@@ -69,7 +69,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const mobileSeasonContainer = document.querySelector('.mobile-container .season');
     const mobileSoundBtns = document.querySelectorAll('.mobile-container .sound-btn');
     const desktopSeasons = document.querySelectorAll('.app-container .season');
-    const desktopSoundBtns = document.querySelectorAll('.app-container .sound-btn');
     const allSoundBtns = document.querySelectorAll('.sound-btn');
     const playBtns = document.querySelectorAll('.play-btn');
     const volumeSliders = document.querySelectorAll('.volume-slider');
