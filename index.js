@@ -136,7 +136,7 @@ document.addEventListener('DOMContentLoaded', function () {
             appState.audioSource.stop();
         }
 
-        appState.audioSource = appState.audioContext.createBufferSource();
+        appState.audioSource = appState.audioContext.createBufferSource(); // Returns AudioBufferSourceNode
         appState.audioSource.buffer = appState.audioBuffer;
         appState.audioSource.loop = true;
         appState.audioSource.connect(appState.gainNode);
@@ -454,8 +454,8 @@ document.addEventListener('DOMContentLoaded', function () {
             if (!appState.isTimerActive) {
                 return; // Ignore clicks when timer is inactive
             }
-            // Cycle through durations, including infinity
-            appState.currentTimerIndex = (appState.currentTimerIndex + 1) % (appState.timerDurations.length + 1);
+            // Cycle through durations
+            appState.currentTimerIndex = appState.currentTimerIndex + 1;
             if (appState.currentTimerIndex === appState.timerDurations.length) {
                 appState.currentTimerIndex = -1; // Set to infinite
             }
