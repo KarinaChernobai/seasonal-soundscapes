@@ -216,6 +216,7 @@ html {
 }
 
 /* Season-specific styles */
+/* Change url to images/spring.avif ? */
 .spring {
     background-image: url('https://images.unsplash.com/photo-1490750967868-88aa4486c946?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
     background-color: var(--spring-color);

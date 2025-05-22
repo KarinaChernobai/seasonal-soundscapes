@@ -49,11 +49,13 @@ const appState = {
         { minutes: 120, display: '2h' },
         { minutes: 180, display: '3h' }
     ],
-    audioContext: null,
+    audioContext: null, // AudioContext
     audioBuffers: {}, // Store preloaded buffers here
     isPreloading: false,
     audioSource: null,
-    gainNode: null,
+    // The createGain() method of the BaseAudioContext interface creates a GainNode, 
+    // which can be used to control the overall gain (or volume) of the audio graph.
+    gainNode: null, 
     currentSound: null,
     isPlaying: false,
     activeSoundBtn: null,
@@ -423,6 +425,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     // Play the first sound of the active season
                     let activeSeasonElement;
                     
+                    // Desktop
                     if (window.innerWidth >= 768) {
                         const seasonElement = this.closest('.season');
                         if (!seasonElement.classList.contains('active')) {
@@ -431,7 +434,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         }
                         activeSeasonElement = seasonElement;
                     } else {
-                        activeSeasonElement = document.querySelector('.season.active');
+                        activeSeasonElement = document.querySelector('.season.active'); // Mobile
                     }
                     
                     if (activeSeasonElement) {
