@@ -8,20 +8,11 @@ Seasonal Soundscapes is a calming, browser-based web app that lets users explore
 
 ## Features
 
-- **Four Seasonal Themes** – Spring, Summer, Autumn, and Winter
-- **Ambient Nature Sounds** – Birds, rain, wind, fire, and more
-- **Clean, Minimal UI** – Simple and calming interface
-- **Responsive Design** – Works on desktop and mobile
-- **Google Analytics Integrated** – Track user engagement
-
-## Project Structure
-
-seasonal-soundscapes/
-├── index.html # Main HTML structure
-├── index.js # Core JavaScript logic
-├── index.min.js # Minified version for performance
-├── styles.css # Custom styles
-├── assets/ # Images and sound files
+- **Four Seasonal Themes** – spring, summer, autumn, and winter
+- **Ambient Nature Sounds** – birds, rain, wind, fire, and more
+- **Clean, Minimal UI** – simple and calming interface
+- **Responsive Design** – works on desktop and mobile
+- **Google Analytics Integrated** – track user engagement
 
 
 ---
