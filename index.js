@@ -17,7 +17,7 @@ class Sound {
 const appState = {
     seasons: [
         new Season("spring", "Awaken your senses with the gentle sounds of nature's rebirth - birdsong, babbling brooks, and soft spring rains.", 
-            [new Sound("birds", "Morning Birds"), new Sound("brook", "Silver Stream"), new Sound("rain", "Spring Rain")]),
+            [new Sound("brook", "Silver Stream"), new Sound("birds", "Morning Birds"),  new Sound("rain", "Spring Rain")]),
         new Season("summer", "Bask in the warm sounds of summer - ocean waves, crickets at dusk, and gentle breezes through palm trees.", 
             [new Sound("ocean", "Sea Whisper"), new Sound("crickets", "Summer Night"), new Sound("breeze", "Gentle Breeze")]),
         new Season("autumn", "Experience the crisp sounds of autumn - rustling leaves, distant thunderstorms, and peaceful rainfall.", 
